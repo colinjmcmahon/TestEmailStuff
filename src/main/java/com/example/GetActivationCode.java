@@ -15,7 +15,7 @@ import org.jsoup.select.Elements;
 import com.example.ReadMultipart;
 
 
-public class GetCode {
+public class GetActivationCode {
 
 
     public static void check(String host, String storeType, String user, String password) {
@@ -52,15 +52,16 @@ public class GetCode {
                 System.out.println("Email Number " + (i + 1));
                 System.out.println("Subject: " + message.getSubject());
                 System.out.println("From: " + message.getFrom()[0]);
-                System.out.println("Text: " + message.getContent().toString());
+                //System.out.println("Text: " + message.getContent().toString());
+
 
                 if (message.isMimeType("text/plain")) {
                     result = message.getContent().toString();
-                    System.out.println("result for text/plain.." + result);
+                    System.out.println("MimeType: text/plain" );
                 } else if (message.isMimeType("multipart/*")) {
                     MimeMultipart mimeMultipart = (MimeMultipart) message.getContent();
                     result = ReadMultipart.getTextFromMimeMultipart(mimeMultipart);
-                    System.out.println("result for multipart.." + result);
+                    System.out.println("MimeType: multipart" );
                 }else{
                     System.out.println("message is neither multipart or text/plain..");
                 }
@@ -89,6 +90,12 @@ public class GetCode {
 
 
         check(host, mailStoreType, username, password);
+
+//        String stripped = ReadMultipart.stripAccessCode("Thanks for verifying your iaatestacc3@outlook.com account!\n" +
+//                "\n" +
+//                "Your code is: 451828 blah blah");
+        //System.out.println("activation code: " + stripped);
+
 
     }
 }
