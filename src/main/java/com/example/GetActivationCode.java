@@ -85,16 +85,17 @@ public class GetActivationCode {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
-        String host = "imap.gmail.com";
-        String mailStoreType = "imap";
-        String username = "iaaTestAccMaster1@gmail.com";
-        //String password = "uvcwwkbxbhkmocnq";
-        String password = "hrtzczezqlywline";
+//        String host = "imap.gmail.com";
+//        String mailStoreType = "imap";
+//        String username = "iaaTestAccMaster1@gmail.com";
+//        //String password = "uvcwwkbxbhkmocnq";
+//        String password = "hrtzczezqlywline";
+//        check(host, mailStoreType, username, password);
 
+        String returnEmail = ExcelHelper.fetchNextUnusedEmail();
 
-        check(host, mailStoreType, username, password);
 
     }
 }
