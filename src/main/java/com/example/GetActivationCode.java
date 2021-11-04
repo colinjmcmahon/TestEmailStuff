@@ -20,7 +20,7 @@ public class GetActivationCode {
 
     public static void check(String host, String storeType, String user, String password) {
         try {
-
+            String returnAccessCode = "";
             // create properties
             Properties properties = new Properties();
 
@@ -48,22 +48,27 @@ public class GetActivationCode {
             for (int i = 0, n = messages.length; i < n; i++) {
                 Message message = messages[i];
                 message.setFlag(Flag.SEEN, true);
-                System.out.println("---------------------------------");
-                System.out.println("Email Number " + (i + 1));
-                System.out.println("Subject: " + message.getSubject());
-                System.out.println("From: " + message.getFrom()[0]);
+//                System.out.println("---------------------------------");
+//                System.out.println("Email Number " + (i + 1));
+//                System.out.println("Subject: " + message.getSubject());
+//                System.out.println("From: " + message.getFrom()[0]);
                 //System.out.println("Text: " + message.getContent().toString());
 
 
                 if (message.isMimeType("text/plain")) {
                     result = message.getContent().toString();
-                    System.out.println("MimeType: text/plain" );
                 } else if (message.isMimeType("multipart/*")) {
                     MimeMultipart mimeMultipart = (MimeMultipart) message.getContent();
                     result = ReadMultipart.getTextFromMimeMultipart(mimeMultipart);
-                    System.out.println("MimeType: multipart" );
                 }else{
-                    System.out.println("message is neither multipart or text/plain..");
+                    if(message.isMimeType("TEXT/HTML")){
+                        String html = (String) message.getContent();
+                        result = org.jsoup.Jsoup.parse(html).text();
+                        returnAccessCode = ReadMultipart.stripAccessCode(result);
+                        System.out.println("Activation Code: " + returnAccessCode);
+                    }else {
+                        System.out.println("message is neither multipart,text/plain or text/html..");
+                    }
                 }
 
             }
@@ -90,12 +95,6 @@ public class GetActivationCode {
 
 
         check(host, mailStoreType, username, password);
-
-//        String stripped = ReadMultipart.stripAccessCode("Thanks for verifying your iaatestacc3@outlook.com account!\n" +
-//                "\n" +
-//                "Your code is: 451828 blah blah");
-        //System.out.println("activation code: " + stripped);
-
 
     }
 }

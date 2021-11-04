@@ -19,20 +19,20 @@ public class ReadMultipart {
             BodyPart bodyPart = mimeMultipart.getBodyPart(i);
             if (bodyPart.isMimeType("text/plain")) {
                 result = result + "\n" + bodyPart.getContent();
-                System.out.println("text/plain");
+                //System.out.println("text/plain");
                 returnAccessCode = stripAccessCode(result);
-                System.out.println("Stripped Access Code: " + returnAccessCode);
+                System.out.println("Activation Code: " + returnAccessCode);
                 break; // without break same text appears twice in my tests
-            } else if (bodyPart.isMimeType("text/html")) {
+            } else if (bodyPart.isMimeType("TEXT/HTML")) {
                 String html = (String) bodyPart.getContent();
                 result = result + "\n" + org.jsoup.Jsoup.parse(html).text();
                 returnAccessCode = stripAccessCode(result);
-                System.out.println("Stripped Access Code: " + returnAccessCode);
-                //System.out.println("text/html");
+                System.out.println("Activation Code: " + returnAccessCode);
+
             } else if (bodyPart.getContent() instanceof MimeMultipart) {
                 result = result + getTextFromMimeMultipart((MimeMultipart) bodyPart.getContent());
                 returnAccessCode = stripAccessCode(result);
-                System.out.println("Stripped Access Code: " + returnAccessCode);
+                System.out.println("Activation Code: " + returnAccessCode);
             }
         }
         return result;
@@ -41,14 +41,9 @@ public class ReadMultipart {
     public static String stripAccessCode(String result) {
 
         String fullEmail = result;
-
         int firstIndex = fullEmail.indexOf("Your code is: ");
-
-//        System.out.println("First occurrence of char 'Your code is: '" +
-//                " is found at : " + firstIndex);
-
-        String accessCode = fullEmail.substring(firstIndex + 15, firstIndex + 21);
-
+        String accessCode = fullEmail.substring(firstIndex + 14, firstIndex + 21);
+        accessCode.trim();
         return accessCode;
     }
 }
