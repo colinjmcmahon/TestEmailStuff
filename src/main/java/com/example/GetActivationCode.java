@@ -35,7 +35,6 @@ public class GetActivationCode {
             Store store = emailSession.getStore("imaps");
 
             store.connect(host, user, password);
-
             // create the inbox object and open it
             Folder inbox = store.getFolder("Inbox");
             inbox.open(Folder.READ_WRITE);
@@ -87,15 +86,23 @@ public class GetActivationCode {
 
     public static void main(String[] args) throws IOException {
 
-//        String host = "imap.gmail.com";
+//        //for gmail account
+        String host = "imap.gmail.com";
+        String mailStoreType = "imap";
+        String username = "iaaunregistered1@gmail.com";
+        String password = "hbucnvuiesgfdqdd";
+
+        //String password = "fjvlqxpuytnorjqn";
+
+        //for outlook account:
+//        String host = "outlook.office365.com";
 //        String mailStoreType = "imap";
-//        String username = "iaaTestAccMaster1@gmail.com";
-//        //String password = "uvcwwkbxbhkmocnq";
-//        String password = "hrtzczezqlywline";
-//        check(host, mailStoreType, username, password);
+//        String username = "iaatestacc3@outlook.com";
+//        String password = "khzermbnhifyesad";
 
-        String returnEmail = ExcelHelper.fetchNextUnusedEmail();
+        check(host, mailStoreType, username, password);
 
+        //String returnEmail = ExcelHelper.fetchNextUnusedEmail();
 
     }
 }
