@@ -9,7 +9,6 @@ import java.io.*;
 
 public class ReadMultipart {
 
-
     public static String getTextFromMimeMultipart(
             MimeMultipart mimeMultipart) throws MessagingException, IOException {
         String result = "";
@@ -19,20 +18,12 @@ public class ReadMultipart {
             BodyPart bodyPart = mimeMultipart.getBodyPart(i);
             if (bodyPart.isMimeType("text/plain")) {
                 result = result + "\n" + bodyPart.getContent();
-                //System.out.println("text/plain");
-                returnAccessCode = stripAccessCode(result);
-                System.out.println("Activation Code: " + returnAccessCode);
                 break; // without break same text appears twice in my tests
             } else if (bodyPart.isMimeType("TEXT/HTML")) {
                 String html = (String) bodyPart.getContent();
                 result = result + "\n" + org.jsoup.Jsoup.parse(html).text();
-                returnAccessCode = stripAccessCode(result);
-                System.out.println("Activation Code: " + returnAccessCode);
-
             } else if (bodyPart.getContent() instanceof MimeMultipart) {
                 result = result + getTextFromMimeMultipart((MimeMultipart) bodyPart.getContent());
-                returnAccessCode = stripAccessCode(result);
-                System.out.println("Activation Code: " + returnAccessCode);
             }
         }
         return result;
@@ -46,4 +37,6 @@ public class ReadMultipart {
         accessCode.trim();
         return accessCode;
     }
+
+
 }
